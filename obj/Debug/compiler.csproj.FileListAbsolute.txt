@@ -1,0 +1,10 @@
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\obj\Debug\compiler.csproj.AssemblyReference.cache
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\bin\Debug\compiler.exe.config
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\bin\Debug\compiler.exe
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\bin\Debug\compiler.pdb
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\obj\Debug\compiler.Form1.resources
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\obj\Debug\compiler.Properties.Resources.resources
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\obj\Debug\compiler.csproj.GenerateResource.cache
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\obj\Debug\compiler.csproj.CoreCompileInputs.cache
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\obj\Debug\compiler.exe
+C:\Users\Sprint\Desktop\compiler lastproject\compiler project\compiler\obj\Debug\compiler.pdb
