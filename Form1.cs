@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -218,33 +218,33 @@ namespace compiler
                     {
                         Advance(); // skip '['
                         Advance(); // skip ']'
-                        
+
                         if (!Match("id"))
                             throw new Exception("Expected identifier after array type");
-                        
+
                         string arrayName = Current();
                         Advance();
 
                         if (Match("AssignmentOperator"))
                         {
                             Advance(); // skip '='
-                            
+
                             if (!Match("new"))
                                 throw new Exception("Expected 'new' for array initialization");
                             Advance();
-                            
+
                             if (!Match(type))
                                 throw new Exception($"Expected type '{type}' after 'new'");
                             Advance();
-                            
+
                             if (!Match("openBracket"))
                                 throw new Exception("Expected '[' for array size");
                             Advance();
-                            
+
                             if (!Match("num") && !Match("id"))
                                 throw new Exception("Expected array size");
                             Advance();
-                            
+
                             if (!Match("closeBracket"))
                                 throw new Exception("Expected ']' after array size");
                             Advance();
@@ -268,27 +268,84 @@ namespace compiler
                     string varName = Current();
                     Advance();
 
-                    // Handle variable assignment
-                    if (Match("AssignmentOperator"))
+                    // Handle function declaration
+                    if (Match("openParenthesis"))
                     {
-                        Advance(); // skip '='
-                        
-                        if (!Match("num") && !Match("id") && !Match("string"))
-                            throw new Exception("Expected value after assignment");
-                        
-                        string value = CurrentLexeme();
+                        Advance(); // skip '('
+
+                        // Handle parameters if any
+                        if (!Match("closeParenthesis"))
+                        {
+                            ParseParameterList();
+                        }
+
+                        if (!Match("closeParenthesis"))
+                            throw new Exception("Expected ')' after function parameters");
                         Advance();
-                        
+
+                        if (!Match("openBrace"))
+                            throw new Exception("Expected '{' for function body");
+                        Advance();
+
+                        // Handle function body
+                        while (!Match("closeBrace") && currentTokenIndex < tokens.Count)
+                        {
+                            if (Match("return"))
+                            {
+                                Advance();
+                                if (Match("Semicolon"))
+                                {
+                                    Advance();
+                                    break;
+                                }
+                                else
+                                {
+                                    Expression();
+                                    if (!Match("Semicolon"))
+                                        throw new Exception("Expected ';' after return expression");
+                                    Advance();
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                Statement();
+                            }
+                        }
+
+                        if (!Match("closeBrace"))
+                            throw new Exception("Expected '}' to close function body");
+                        Advance();
+
                         if (!form.identifiers.Contains(varName))
                         {
                             form.identifiers.Add(varName);
                             form.IdentifiersListBox.Items.Add(varName);
                         }
-                        
+                        return;
+                    }
+
+                    // Handle variable assignment
+                    if (Match("AssignmentOperator"))
+                    {
+                        Advance(); // skip '='
+
+                        if (!Match("num") && !Match("id") && !Match("string"))
+                            throw new Exception("Expected value after assignment");
+
+                        string value = CurrentLexeme();
+                        Advance();
+
+                        if (!form.identifiers.Contains(varName))
+                        {
+                            form.identifiers.Add(varName);
+                            form.IdentifiersListBox.Items.Add(varName);
+                        }
+
                         if (!Match("Semicolon"))
                             throw new Exception("Expected ';' after variable declaration");
                         Advance();
-                        
+
                         form.tokensListBox.Items.Add($"Variable declaration: {type} {varName} = {value}");
                         return;
                     }
@@ -718,7 +775,7 @@ namespace compiler
 
                 if (Match("openBracket"))
                 {
-                    Advance(); 
+                    Advance();
 
                     Expression();
 
